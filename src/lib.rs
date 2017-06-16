@@ -18,7 +18,7 @@ pub struct PoisonError<T> {
 
 pub trait Mutex<T: Sized> {
     /// try locking the Mutex, possibly receiving a `MutexGuard`
-    fn try_lock(&mut self) -> TryLockResult<T>;
+    fn try_lock(&mut self) -> TryLockResult<MutexGuard<T>>;
 
     /// Set this mutex to lock. This is used by the MutexGuard
     /// to manage the lock status.
@@ -34,16 +34,16 @@ pub trait Mutex<T: Sized> {
 
     /// get the reference to the underlying data
     /// 
-    /// Note that `ref_mut` uses an immutable reference,
+    /// Note that `get_ref_mut` uses an immutable reference,
     /// so the data is not guaranteed to be locked by
     /// these methos.
     unsafe fn get_ref(&self) -> &T;
 
     /// get a mutable reference to the underlying data
     /// 
-    /// Note that `ref_mut` uses an immutable reference,
+    /// Note that this uses an immutable reference,
     /// so the data is not guaranteed to be locked by
-    /// these methos.
+    /// this method.
     unsafe fn get_ref_mut(&self) -> &mut T;
 }
 
